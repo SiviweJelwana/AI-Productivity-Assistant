@@ -44,7 +44,7 @@ export const generateAiOutput = createServerFn({ method: "POST" })
         user_id: userId,
         kind: data.kind,
         title: data.title,
-        input: data.input ?? {},
+        input: (data.input ?? {}) as never,
         content: result.text,
       })
       .select()

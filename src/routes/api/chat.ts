@@ -62,18 +62,13 @@ export const Route = createFileRoute("/api/chat")({
             try {
               // Save the last user message and the new assistant message
               const assistant = finalMessages[finalMessages.length - 1];
-              const rows: Array<{
-                thread_id: string;
-                user_id: string;
-                role: "user" | "assistant";
-                parts: unknown;
-              }> = [];
+              const rows: Database["public"]["Tables"]["chat_messages"]["Insert"][] = [];
               if (lastUser?.role === "user") {
                 rows.push({
                   thread_id: threadId,
                   user_id: userId,
                   role: "user",
-                  parts: lastUser.parts as unknown,
+                  parts: lastUser.parts as never,
                 });
               }
               if (assistant?.role === "assistant") {
@@ -81,7 +76,7 @@ export const Route = createFileRoute("/api/chat")({
                   thread_id: threadId,
                   user_id: userId,
                   role: "assistant",
-                  parts: assistant.parts as unknown,
+                  parts: assistant.parts as never,
                 });
               }
               if (rows.length) await supabase.from("chat_messages").insert(rows);
