@@ -13,7 +13,15 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AuthenticatedSummaryRouteImport } from './routes/_authenticated/summary'
+import { Route as AuthenticatedResearchRouteImport } from './routes/_authenticated/research'
+import { Route as AuthenticatedPlannerRouteImport } from './routes/_authenticated/planner'
+import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated/history'
+import { Route as AuthenticatedEmailRouteImport } from './routes/_authenticated/email'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedChatRouteImport } from './routes/_authenticated/chat'
+import { Route as AuthenticatedChatIndexRouteImport } from './routes/_authenticated/chat.index'
+import { Route as AuthenticatedChatThreadIdRouteImport } from './routes/_authenticated/chat.$threadId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -34,44 +42,139 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedSummaryRoute = AuthenticatedSummaryRouteImport.update({
+  id: '/summary',
+  path: '/summary',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedResearchRoute = AuthenticatedResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPlannerRoute = AuthenticatedPlannerRouteImport.update({
+  id: '/planner',
+  path: '/planner',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHistoryRoute = AuthenticatedHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedEmailRoute = AuthenticatedEmailRouteImport.update({
+  id: '/email',
+  path: '/email',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedChatRoute = AuthenticatedChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedChatIndexRoute = AuthenticatedChatIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedChatRoute,
+} as any)
+const AuthenticatedChatThreadIdRoute =
+  AuthenticatedChatThreadIdRouteImport.update({
+    id: '/$threadId',
+    path: '/$threadId',
+    getParentRoute: () => AuthenticatedChatRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/chat': typeof AuthenticatedChatRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/email': typeof AuthenticatedEmailRoute
+  '/history': typeof AuthenticatedHistoryRoute
+  '/planner': typeof AuthenticatedPlannerRoute
+  '/research': typeof AuthenticatedResearchRoute
+  '/summary': typeof AuthenticatedSummaryRoute
   '/api/chat': typeof ApiChatRoute
+  '/chat/$threadId': typeof AuthenticatedChatThreadIdRoute
+  '/chat/': typeof AuthenticatedChatIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/email': typeof AuthenticatedEmailRoute
+  '/history': typeof AuthenticatedHistoryRoute
+  '/planner': typeof AuthenticatedPlannerRoute
+  '/research': typeof AuthenticatedResearchRoute
+  '/summary': typeof AuthenticatedSummaryRoute
   '/api/chat': typeof ApiChatRoute
+  '/chat/$threadId': typeof AuthenticatedChatThreadIdRoute
+  '/chat': typeof AuthenticatedChatIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/chat': typeof AuthenticatedChatRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/email': typeof AuthenticatedEmailRoute
+  '/_authenticated/history': typeof AuthenticatedHistoryRoute
+  '/_authenticated/planner': typeof AuthenticatedPlannerRoute
+  '/_authenticated/research': typeof AuthenticatedResearchRoute
+  '/_authenticated/summary': typeof AuthenticatedSummaryRoute
   '/api/chat': typeof ApiChatRoute
+  '/_authenticated/chat/$threadId': typeof AuthenticatedChatThreadIdRoute
+  '/_authenticated/chat/': typeof AuthenticatedChatIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/dashboard' | '/api/chat'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/chat'
+    | '/dashboard'
+    | '/email'
+    | '/history'
+    | '/planner'
+    | '/research'
+    | '/summary'
+    | '/api/chat'
+    | '/chat/$threadId'
+    | '/chat/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/dashboard' | '/api/chat'
+  to:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/email'
+    | '/history'
+    | '/planner'
+    | '/research'
+    | '/summary'
+    | '/api/chat'
+    | '/chat/$threadId'
+    | '/chat'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/chat'
     | '/_authenticated/dashboard'
+    | '/_authenticated/email'
+    | '/_authenticated/history'
+    | '/_authenticated/planner'
+    | '/_authenticated/research'
+    | '/_authenticated/summary'
     | '/api/chat'
+    | '/_authenticated/chat/$threadId'
+    | '/_authenticated/chat/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -111,6 +214,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/summary': {
+      id: '/_authenticated/summary'
+      path: '/summary'
+      fullPath: '/summary'
+      preLoaderRoute: typeof AuthenticatedSummaryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/research': {
+      id: '/_authenticated/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof AuthenticatedResearchRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/planner': {
+      id: '/_authenticated/planner'
+      path: '/planner'
+      fullPath: '/planner'
+      preLoaderRoute: typeof AuthenticatedPlannerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/history': {
+      id: '/_authenticated/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof AuthenticatedHistoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/email': {
+      id: '/_authenticated/email'
+      path: '/email'
+      fullPath: '/email'
+      preLoaderRoute: typeof AuthenticatedEmailRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -118,15 +256,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/chat': {
+      id: '/_authenticated/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof AuthenticatedChatRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/chat/': {
+      id: '/_authenticated/chat/'
+      path: '/'
+      fullPath: '/chat/'
+      preLoaderRoute: typeof AuthenticatedChatIndexRouteImport
+      parentRoute: typeof AuthenticatedChatRoute
+    }
+    '/_authenticated/chat/$threadId': {
+      id: '/_authenticated/chat/$threadId'
+      path: '/$threadId'
+      fullPath: '/chat/$threadId'
+      preLoaderRoute: typeof AuthenticatedChatThreadIdRouteImport
+      parentRoute: typeof AuthenticatedChatRoute
+    }
   }
 }
 
+interface AuthenticatedChatRouteChildren {
+  AuthenticatedChatThreadIdRoute: typeof AuthenticatedChatThreadIdRoute
+  AuthenticatedChatIndexRoute: typeof AuthenticatedChatIndexRoute
+}
+
+const AuthenticatedChatRouteChildren: AuthenticatedChatRouteChildren = {
+  AuthenticatedChatThreadIdRoute: AuthenticatedChatThreadIdRoute,
+  AuthenticatedChatIndexRoute: AuthenticatedChatIndexRoute,
+}
+
+const AuthenticatedChatRouteWithChildren =
+  AuthenticatedChatRoute._addFileChildren(AuthenticatedChatRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedChatRoute: typeof AuthenticatedChatRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedEmailRoute: typeof AuthenticatedEmailRoute
+  AuthenticatedHistoryRoute: typeof AuthenticatedHistoryRoute
+  AuthenticatedPlannerRoute: typeof AuthenticatedPlannerRoute
+  AuthenticatedResearchRoute: typeof AuthenticatedResearchRoute
+  AuthenticatedSummaryRoute: typeof AuthenticatedSummaryRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedChatRoute: AuthenticatedChatRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedEmailRoute: AuthenticatedEmailRoute,
+  AuthenticatedHistoryRoute: AuthenticatedHistoryRoute,
+  AuthenticatedPlannerRoute: AuthenticatedPlannerRoute,
+  AuthenticatedResearchRoute: AuthenticatedResearchRoute,
+  AuthenticatedSummaryRoute: AuthenticatedSummaryRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -141,3 +325,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
